@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/d8"
+            android:paddingStart="@dimen/d2"
+            android:paddingBottom="@dimen/d8"
+            android:paddingTop="@dimen/d8">
+
+        <TextView
+                android:id="@+id/heading"
+                style="@style/HeadingTxtStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/d2"
+                android:textAllCaps="true"
+                android:textColor="@color/text_color_1"
+                android:textSize="@dimen/f14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Bookmark"/>
+
+        <LinearLayout
+                android:id="@+id/llContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/heading"
+                tools:visibility="visible"/>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="@dimen/d8"
+                android:layout_marginStart="@dimen/d8"
+                android:layout_marginTop="@dimen/d8"
+                android:background="@color/gray_2"
+                app:layout_constraintTop_toBottomOf="@+id/llContainer"/>
+    </android.support.constraint.ConstraintLayout>
+</layout>

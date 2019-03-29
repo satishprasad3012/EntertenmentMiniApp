@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+            android:id="@+id/error_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|center_vertical"
+            android:textSize="@dimen/f24"
+            android:visibility="gone"
+            android:layout_margin="@dimen/d16"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/text_color_2"
+            tools:text="@string/no_internet"
+            tools:visibility="visible">
+    </TextView>
+</layout>

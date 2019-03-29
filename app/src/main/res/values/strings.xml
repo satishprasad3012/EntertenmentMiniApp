@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EntMiniApp</string>
+
+    <string name="base_url">http://www.omdbapi.com/</string>
+
+    <string name="no_internet">No internet available</string>
+    <string name="internet_too_slow">Internet Too Slow</string>
+    <string name="network_call_cancelled">Cancelled</string>
+    <string name="no_result">No Result</string>
+    <string name="bookmark">bookmark</string>
+
+    <string name="key_view_adapter_position">View Position in Adapter</string>
+
+</resources>
