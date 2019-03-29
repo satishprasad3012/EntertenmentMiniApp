@@ -22,6 +22,7 @@ Instructions for use:
    * Jetpack components : Viewmodel, DataBinding, Room
    * Retrofit for API call
    * Recyclerview, Cardview, Constrainlayout, etc
+   * Glide for Image loading
   
   
   
