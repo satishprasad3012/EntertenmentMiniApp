@@ -51,9 +51,10 @@
         <item name="android:textColorHint">@color/text_color_2</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:layout_marginTop">@dimen/d12</item>
-        <item name="android:layout_marginStart">@dimen/d32</item>
-        <item name="android:layout_marginEnd">@dimen/d32</item>
-        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">@dimen/d8</item>
+        <item name="android:layout_marginEnd">@dimen/d8</item>
+        <item name="android:gravity">start|center</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="HeadingTxtStyle" parent="@android:style/Widget.TextView">
@@ -84,5 +85,12 @@
         <item name="android:layout_marginEnd">@dimen/d16</item>
     </style>
 
+    <style name="EmptyTxtStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/text_color_2</item>
+        <item name="android:textSize">@dimen/f20</item>
+        <item name="android:gravity">center|center_vertical</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:layout_margin">@dimen/d16</item>
+    </style>
 
 </resources>

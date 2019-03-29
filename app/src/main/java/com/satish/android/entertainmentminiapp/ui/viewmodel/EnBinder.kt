@@ -2,33 +2,26 @@ package com.satish.android.entertainmentminiapp.ui.viewmodel
 
 import android.content.Context
 import android.databinding.Bindable
-import android.databinding.BindingAdapter
 import android.databinding.Observable
 import android.databinding.PropertyChangeRegistry
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.view.View
-import android.widget.ImageView
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.satish.android.entertainmentminiapp.BR
 import com.satish.android.entertainmentminiapp.R
-import com.satish.android.entertainmentminiapp.app.GlideApp
 import com.satish.android.entertainmentminiapp.model.Entertainment
 import com.satish.android.entertainmentminiapp.ui.activity.EntDetailActivity
-import com.satish.android.entertainmentminiapp.ui.listeners.BookmarkListener
+import com.satish.android.entertainmentminiapp.ui.listeners.EntActionListener
 import com.satish.android.entertainmentminiapp.utility.isNetworkAvailable
-import com.satish.android.entertainmentminiapp.utility.log
 import com.satish.android.entertainmentminiapp.utility.toast
-import kotlinx.coroutines.experimental.launch
 
 class EnBinder(val context: Context, val entertainment: Entertainment, val screenName: String) : Observable {
 
     private val mPropertyChangeRegistry = PropertyChangeRegistry()
-    private var bookmarkListener: BookmarkListener? = null
+    private var bookmarkListener: EntActionListener? = null
 
     init {
-        if (context is BookmarkListener)
+        if (context is EntActionListener)
             bookmarkListener = context
     }
 

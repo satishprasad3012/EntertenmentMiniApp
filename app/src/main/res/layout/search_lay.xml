@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+            android:id="@+id/search_main_lay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d52"
+            android:background="@drawable/edittext_search_bg">
+
+        <TextView
+                android:id="@+id/search_tv"
+                style="@style/DescTxtStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/d8"
+                android:paddingStart="@dimen/d16"
+                android:gravity="start|center"
+                android:text="@string/search"
+                android:textColor="@color/text_color_2"/>
+
+        <ImageView
+                android:id="@+id/clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:minHeight="@dimen/d52"
+                android:minWidth="@dimen/d52"
+                android:scaleType="center"
+                android:tint="@color/text_color_2"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_close_svg"
+                tools:visibility="visible"/>
+
+        <EditText
+                style="@style/EditTxtStyle"
+                android:id="@+id/search_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:imeActionLabel="Done"
+                android:layout_centerVertical="true"
+                android:paddingStart="@dimen/d16"
+                android:hint="@string/search"
+                android:layout_toLeftOf="@+id/clear"
+                android:gravity="start|center"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+    </RelativeLayout>
+</layout>

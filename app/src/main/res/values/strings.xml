@@ -11,6 +11,10 @@
     <string name="database">ent-db</string>
     <string name="error">something wrong!!</string>
     <string name="loading">Loading...</string>
+    <string name="search">Search</string>
+    <string name="empty_home_message">No result found!</string>
+    <string name="default_search">Default Search</string>
+    <string name="default_search_value">harry</string>
 
     <string name="key_view_adapter_position">View Position in Adapter</string>
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -14,6 +13,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+        <com.satish.android.entertainmentminiapp.ui.views.SearchView
+                android:id="@+id/search_lay"
+                android:layout_below="@id/toolbar"
+                android:layout_marginStart="@dimen/d4"
+                android:layout_marginEnd="@dimen/d4"
+                android:layout_marginTop="@dimen/d4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <!--<include-->
+                <!--android:id="@+id/search_lay"-->
+                <!--layout="@layout/search_lay"-->
+                <!--android:layout_below="@id/toolbar"-->
+                <!--android:layout_marginStart="@dimen/d4"-->
+                <!--android:layout_marginEnd="@dimen/d4"-->
+                <!--android:layout_marginTop="@dimen/d4"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"/>-->
+
         <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
@@ -25,7 +43,7 @@
                 android:id="@+id/ll_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/toolbar"
+                android:layout_below="@id/search_lay"
                 android:orientation="vertical"
                 android:splitMotionEvents="false"
                 android:visibility="gone"

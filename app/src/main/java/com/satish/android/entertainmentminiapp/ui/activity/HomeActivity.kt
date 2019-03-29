@@ -23,10 +23,11 @@ import com.satish.android.entertainmentminiapp.databinding.HomeActivityBinding
 import com.satish.android.entertainmentminiapp.model.Entertainment
 import com.satish.android.entertainmentminiapp.model.EntertainmentRes
 import com.satish.android.entertainmentminiapp.model.ListCountModel
-import com.satish.android.entertainmentminiapp.ui.listeners.BookmarkListener
+import com.satish.android.entertainmentminiapp.ui.listeners.EntActionListener
 import com.satish.android.entertainmentminiapp.ui.viewmodel.EnListViewModel
 import com.satish.android.entertainmentminiapp.ui.views.BookmarkHView
 import com.satish.android.entertainmentminiapp.ui.views.EnItemLargeView
+import com.satish.android.entertainmentminiapp.ui.views.HomeEmptyView
 import com.satish.android.entertainmentminiapp.utility.Constants
 import com.satish.android.entertainmentminiapp.utility.bookmarkedSet
 import com.satish.android.entertainmentminiapp.utility.observeNullable
@@ -36,7 +37,7 @@ import kotlin.collections.ArrayList
 
 
 class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener,
-    BookmarkListener {
+    EntActionListener {
 
     private lateinit var binding: HomeActivityBinding
     private val enListVM by lazy { ViewModelProviders.of(this).get(EnListViewModel::class.java) }
@@ -44,16 +45,16 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
     private lateinit var mMultiItemRowAdapter: SingleItemRecycleAdapter
     private lateinit var mArrListAdapterParam: ArrayList<RecycleAdapterParams>
     private val mNewArrListAdapterParam = arrayOfNulls<RecycleAdapterParams>(TOTAL_NO_OF_ADAPTERS)
-
     private lateinit var bookmarkAdapter: RecycleAdapterParams
     private lateinit var enListAdapter: RecycleAdapterParams
     private var enData: ArrayList<Entertainment> = ArrayList()
     private var bookmarkData: ArrayList<Entertainment> = ArrayList()
+    private var isPullToRefresh: Boolean = false
 
 
     private lateinit var bookmarkView: BookmarkHView
 
-    private var searchText: String = "harry" // default
+    private var searchText: String = "harry"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +64,7 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
     }
 
     private fun initUi() {
+        searchText = getString(R.string.default_search_value)
         addAdapters()
         recycleMultiItemView = RecycleMultiItemView(this)
         recycleMultiItemView.setPullToRefreshListener(this)
@@ -106,22 +108,34 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
                 if (it.searchList != null && it.searchList.size > 0) {
                     updateBookmarkedInList(it.searchList)
                     if (enData.size > 0) {
-                        enData.addAll(it.searchList)
+                        if (isPullToRefresh) { // handle for avoid unnecessary load
+                            enData = it.searchList
+                            recycleMultiItemView.pullToRefreshComplete()
+                        } else
+                            enData.addAll(it.searchList)
                         mMultiItemRowAdapter.notifyDatahasChanged()
                     } else {
                         setData(it)
                         recycleMultiItemView.pullToRefreshComplete()
+                        binding.progressBar.visibility = View.GONE
                     }
                     recycleMultiItemView.removeFooterLoader()
+                } else {
+                    if (enData.size < 1) {
+                        setEmptyView()
+                        recycleMultiItemView.pullToRefreshComplete()
+                        binding.progressBar.visibility = View.GONE
+                    }
                 }
+                isPullToRefresh = false
             }
         })
     }
 
-    private fun updateBookmarkedInList(ents:ArrayList<Entertainment>){
+    private fun updateBookmarkedInList(ents: ArrayList<Entertainment>) {
         ents.forEach {
-            if(bookmarkedSet.contains(it.imdbID))
-                it.bookmark=true
+            if (bookmarkedSet.contains(it.imdbID))
+                it.bookmark = true
         }
     }
 
@@ -142,7 +156,7 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
     }
 
     private fun observeBookmarkData() {
-        enListVM.bookmarkList.observeNullable(this,{
+        enListVM.bookmarkList.observeNullable(this, {
             bookmarkData.clear()
             it?.let {
                 bookmarkData.addAll(it)
@@ -155,16 +169,16 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
     }
 
     override fun onPulltoRefreshCalled() {
-        enData.clear()
+        // enData.clear()
+        isPullToRefresh = true
         enListVM.enListCallAPI(searchText, 1)
     }
 
     override fun onBookmark(ent: Entertainment) {
         enListVM.bookmarkEnt(ent)
-        if(ent.bookmark){
+        if (ent.bookmark) {
             bookmarkData.add(ent)
-        }
-        else
+        } else
             removeUnBookmarkedFromList(ent.imdbID.orEmpty())
         bookmarkAdapter.dataObject =
             ListCountModel(Constants.RECYCLER_ID_BOOKMARK, bookmarkData.size)
@@ -172,13 +186,27 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
         bookmarkView.notifyDataChanged()
     }
 
-    private fun removeUnBookmarkedFromList(id:String){
+    override fun onSearch(str: String) {
+        isPullToRefresh = false
+        searchText = str
+        enData.clear()
+        enListVM.enListCallAPI(searchText, 1)
+    }
+
+    private fun removeUnBookmarkedFromList(id: String) {
         val itr = bookmarkData.iterator()
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             val ent = itr.next()
-            if(ent.imdbID == id)
+            if (ent.imdbID == id)
                 itr.remove()
         }
+    }
+
+    private fun setEmptyView() {
+        val adapterParams =
+            RecycleAdapterParams(null, HomeEmptyView(this))
+        mArrListAdapterParam[POS_SEARCHED_EN] = adapterParams
+        mMultiItemRowAdapter.notifyDatahasChanged()
     }
 
     companion object {
