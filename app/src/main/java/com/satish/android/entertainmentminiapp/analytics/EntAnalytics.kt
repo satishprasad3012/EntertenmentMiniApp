@@ -8,7 +8,6 @@ package com.satish.android.entertainmentminiapp.analytics
  * **/
 
 
-
 class EntAnalytics private constructor(){
 
     companion object {

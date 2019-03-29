@@ -48,12 +48,12 @@
                     android:maxLines="4"
                     android:ellipsize="end"
                     android:textSize="@dimen/f12"
-                   android:text="djhdjkfhkf "
+                    android:text="@{data.title}"
                     android:fontFamily="@font/roboto_medium"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_margin="@dimen/d8"
-                    tools:text="kjdhjkfgjhfgfhjgfhjgvhjf dnvdnfngf vfgvfnfvnfv fhvfnvfhfvnhfvjhfgvj"/>
+                    tools:text="satish kjdhjkfgjhfgfhjgfhjgvhjf dnvdnfngf vfgvfnfvnfv fhvfnvfhfvnhfvjhfgvj"/>
 
             <!--<ImageView-->
                     <!--android:id="@+id/bookmark_iv"-->

@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.satish.android.entertainmentminiapp.app.EntertainmentApplication
 import com.satish.android.entertainmentminiapp.app.GlideApp
 import java.util.*
+import kotlin.collections.HashSet
 
 val deviceId: String
     get() = Settings.System.getString(
@@ -66,3 +67,5 @@ fun isNetworkAvailable(context: Context): Boolean {
     val netInfo = mCM.activeNetworkInfo
     return netInfo != null && netInfo.isConnectedOrConnecting
 }
+
+val bookmarkedSet = HashSet<String>()

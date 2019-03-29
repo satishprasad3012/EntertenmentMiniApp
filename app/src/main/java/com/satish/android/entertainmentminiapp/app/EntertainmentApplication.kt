@@ -8,8 +8,11 @@ package com.satish.android.entertainmentminiapp.app
  * **/
 
 import android.support.multidex.MultiDexApplication
+import com.satish.android.entertainmentminiapp.database.AppDatabase
 
 class EntertainmentApplication : MultiDexApplication() {
+
+    val appDatabase by lazy { AppDatabase.get(this) }
 
     override fun onCreate() {
         super.onCreate()

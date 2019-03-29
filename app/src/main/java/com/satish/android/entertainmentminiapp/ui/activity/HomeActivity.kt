@@ -20,18 +20,22 @@ import com.satish.android.entertainmentminiapp.customrecyclercontrol.helper.Mult
 import com.satish.android.entertainmentminiapp.customrecyclercontrol.helpers.RecycleAdapterParams
 import com.satish.android.entertainmentminiapp.databinding.HomeActivityBinding
 import com.satish.android.entertainmentminiapp.model.Entertainment
-import com.satish.android.entertainmentminiapp.model.EntertainmentDetail
+import com.satish.android.entertainmentminiapp.model.EntertainmentRes
 import com.satish.android.entertainmentminiapp.model.ListCountModel
+import com.satish.android.entertainmentminiapp.ui.listeners.BookmarkListener
 import com.satish.android.entertainmentminiapp.ui.viewmodel.EnListViewModel
 import com.satish.android.entertainmentminiapp.ui.views.BookmarkHView
 import com.satish.android.entertainmentminiapp.ui.views.EnItemLargeView
 import com.satish.android.entertainmentminiapp.utility.Constants
+import com.satish.android.entertainmentminiapp.utility.bookmarkedSet
 import com.satish.android.entertainmentminiapp.utility.observeNullable
 import com.satish.android.entertainmentminiapp.utility.orZero
 import java.util.*
 import kotlin.collections.ArrayList
 
-class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener {
+
+class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener,
+    BookmarkListener {
 
     private lateinit var binding: HomeActivityBinding
     private val enListVM by lazy { ViewModelProviders.of(this).get(EnListViewModel::class.java) }
@@ -99,6 +103,7 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
         enListVM.entertainmentDetailMld.observeNullable(this, {
             it?.let {
                 if (it.searchList != null && it.searchList.size > 0) {
+                    updateBookmarkedInList(it.searchList)
                     if (enData.size > 0) {
                         enData.addAll(it.searchList)
                         mMultiItemRowAdapter.notifyDatahasChanged()
@@ -112,7 +117,14 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
         })
     }
 
-    private fun setData(response: EntertainmentDetail) {
+    private fun updateBookmarkedInList(ents:ArrayList<Entertainment>){
+        ents.forEach {
+            if(bookmarkedSet.contains(it.imdbID))
+                it.bookmark=true
+        }
+    }
+
+    private fun setData(response: EntertainmentRes) {
         enData.clear()
         response.searchList?.let { enData.addAll(it) }
         mArrListAdapterParam[POS_SEARCHED_EN] = enListAdapter
@@ -128,55 +140,16 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
         mMultiItemRowAdapter.notifyDatahasChanged()
     }
 
-    private fun setAdapter1() {
-        mMultiItemRowAdapter.setAdapterParams(mArrListAdapterParam)
-        recycleMultiItemView.setAdapter(mMultiItemRowAdapter)
-        binding.progressBar.visibility = View.GONE
-        binding.llContainer.visibility = View.VISIBLE
-        binding.llContainer.removeAllViews()
-        binding.llContainer.addView(recycleMultiItemView.populatedView)
-    }
-
-    private fun observeEnData1() {
-        enListVM.entertainmentDetailMld.observeNullable(this, {
-            it?.let {
-                if (it.searchList != null && it.searchList.size > 0) {
-                    if (enData.size > 0) {
-                        enData.addAll(it.searchList)
-                        mMultiItemRowAdapter.notifyDatahasChanged()
-                    } else {
-                        enData = it.searchList
-                        enListAdapter = RecycleAdapterParams(enData, EnItemLargeView(this, screenName))
-                        mArrListAdapterParam.add(enListAdapter)
-                        setAdapter()
-                        recycleMultiItemView.setOnLoadMoreListner { pageNumberToBeLoaded ->
-                            val totalRes: Int = it.totalResults?.toInt().orZero()
-                            if (enData.size <= totalRes) {
-                                enListVM.enListCallAPI(searchText, pageNumberToBeLoaded)
-                            } else {
-                                recycleMultiItemView.removeLoadMoreListener()
-                            }
-                        }
-                    }
-                    recycleMultiItemView.removeFooterLoader()
-                }
-            }
-
-        })
-    }
-
-    //TODO; testing purpose, need to fetch from db
     private fun observeBookmarkData() {
-        enListVM.entertainmentDetailMld.observeNullable(this, {
+        enListVM.bookmarkList.observeNullable(this,{
+            bookmarkData.clear()
             it?.let {
-                if (it.searchList != null && it.searchList.size > 0) {
-                    bookmarkData.addAll(it.searchList)
-                    bookmarkAdapter.dataObject =
-                        ListCountModel(Constants.RECYCLER_ID_BOOKMARK, it.searchList.size)
-                    mMultiItemRowAdapter.notifyDatahasChanged()
-                    bookmarkView.notifyDataChanged()
-                }
+                bookmarkData.addAll(it)
+                bookmarkAdapter.dataObject =
+                    ListCountModel(Constants.RECYCLER_ID_BOOKMARK, it.size)
             }
+            mMultiItemRowAdapter.notifyDatahasChanged()
+            bookmarkView.notifyDataChanged()
         })
     }
 
@@ -185,11 +158,32 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
         enListVM.enListCallAPI(searchText, 1)
     }
 
+    override fun onBookmark(ent: Entertainment) {
+        enListVM.bookmarkEnt(ent)
+        if(ent.bookmark){
+            bookmarkData.add(ent)
+        }
+        else
+            removeUnBookmarkedFromList(ent.imdbID.orEmpty())
+        bookmarkAdapter.dataObject =
+            ListCountModel(Constants.RECYCLER_ID_BOOKMARK, bookmarkData.size)
+        mMultiItemRowAdapter.notifyDatahasChanged()
+        bookmarkView.notifyDataChanged()
+    }
+
+    private fun removeUnBookmarkedFromList(id:String){
+        val itr = bookmarkData.iterator()
+        while(itr.hasNext()){
+            val ent = itr.next()
+            if(ent.imdbID == id)
+                itr.remove()
+        }
+    }
+
     companion object {
         private const val POS_BOOKMARK = 0
         private const val POS_SEARCHED_EN = 1
         private const val TOTAL_NO_OF_ADAPTERS = 2
-
 
         fun startActivity(context: Context) {
             context.startActivity(Intent(context, HomeActivity::class.java))

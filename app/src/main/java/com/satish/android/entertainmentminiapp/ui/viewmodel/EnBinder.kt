@@ -9,11 +9,23 @@ import android.support.v4.content.ContextCompat
 import com.satish.android.entertainmentminiapp.BR
 import com.satish.android.entertainmentminiapp.R
 import com.satish.android.entertainmentminiapp.model.Entertainment
+import com.satish.android.entertainmentminiapp.ui.listeners.BookmarkListener
+import kotlinx.coroutines.experimental.launch
 
 class EnBinder(val context: Context, val entertainment: Entertainment, val screenName: String)
     : Observable {
 
     private val mPropertyChangeRegistry = PropertyChangeRegistry()
+    private var bookmarkListener:BookmarkListener?=null
+
+    init {
+        try {
+            bookmarkListener = context as BookmarkListener
+        }
+        catch (e:Exception){
+
+        }
+    }
 
     val title = entertainment.Title.orEmpty()
     val image = entertainment.Poster.orEmpty()
@@ -29,8 +41,9 @@ class EnBinder(val context: Context, val entertainment: Entertainment, val scree
         }
 
     fun onBookmarkClick() {
-        entertainment.bookmark = !entertainment.bookmark
-        onBookMarked(entertainment.bookmark)
+            entertainment.bookmark = !entertainment.bookmark
+            bookmarkListener?.onBookmark(entertainment)
+            onBookMarked(entertainment.bookmark)
     }
 
     open fun onBookMarked(bookmarked: Boolean) {

@@ -8,6 +8,7 @@
     <string name="network_call_cancelled">Cancelled</string>
     <string name="no_result">No Result</string>
     <string name="bookmark">bookmark</string>
+    <string name="database">ent-db</string>
 
     <string name="key_view_adapter_position">View Position in Adapter</string>
 

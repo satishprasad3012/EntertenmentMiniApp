@@ -1,6 +1,6 @@
 package com.satish.android.entertainmentminiapp.network
 
-import com.satish.android.entertainmentminiapp.model.EntertainmentDetail
+import com.satish.android.entertainmentminiapp.model.EntertainmentRes
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -21,6 +21,6 @@ interface RetrofitServices {
         @Query("s") searchkey: String,
         @Query("page") page: Int,
         @Query("apikey") apikey: String
-    ): Call<EntertainmentDetail>
+    ): Call<EntertainmentRes>
 
 }

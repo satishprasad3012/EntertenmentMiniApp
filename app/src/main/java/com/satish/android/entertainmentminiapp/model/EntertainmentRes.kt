@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class EntertainmentDetail(
+data class EntertainmentRes(
     @SerializedName("Search") val searchList: ArrayList<Entertainment>? = null,
     @SerializedName("totalResults") val totalResults: String? = null,
     @SerializedName("Response") val Response: String? = null
