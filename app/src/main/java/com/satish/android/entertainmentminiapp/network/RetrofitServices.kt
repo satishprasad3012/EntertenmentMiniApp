@@ -1,5 +1,6 @@
 package com.satish.android.entertainmentminiapp.network
 
+import com.satish.android.entertainmentminiapp.model.EntDetail
 import com.satish.android.entertainmentminiapp.model.EntertainmentRes
 import retrofit2.Call
 import retrofit2.http.GET
@@ -22,5 +23,11 @@ interface RetrofitServices {
         @Query("page") page: Int,
         @Query("apikey") apikey: String
     ): Call<EntertainmentRes>
+
+    @GET("/")
+    fun getEntDetail(
+        @Query("i") imdbId: String,
+        @Query("apikey") apikey: String
+    ): Call<EntDetail>
 
 }

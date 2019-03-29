@@ -14,6 +14,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
 import com.satish.android.entertainmentminiapp.R
+import com.satish.android.entertainmentminiapp.analytics.EntAnalytics
 import com.satish.android.entertainmentminiapp.customrecyclercontrol.RecycleMultiItemView
 import com.satish.android.entertainmentminiapp.customrecyclercontrol.adapter.SingleItemRecycleAdapter
 import com.satish.android.entertainmentminiapp.customrecyclercontrol.helper.MultiListInterfaces
@@ -190,5 +191,5 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
         }
     }
 
-    override val screenName = ""
+    override val screenName = EntAnalytics.ENT_LIST_SCREEN
 }

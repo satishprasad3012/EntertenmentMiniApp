@@ -11,6 +11,7 @@ package com.satish.android.entertainmentminiapp.repo
 import android.arch.lifecycle.MutableLiveData
 import com.satish.android.entertainmentminiapp.app.EntertainmentApplication
 import com.satish.android.entertainmentminiapp.database.entities.EntItemEntity
+import com.satish.android.entertainmentminiapp.model.EntDetail
 import com.satish.android.entertainmentminiapp.model.Entertainment
 import com.satish.android.entertainmentminiapp.model.EntertainmentRes
 import com.satish.android.entertainmentminiapp.network.ErrorResponse
@@ -33,7 +34,7 @@ class EntertainmentRepository {
 
     fun getEntertainList(
         searchText: String, page: Int, entertainmentDetail: MutableLiveData<EntertainmentRes>,
-        errorMesg: MutableLiveData<ErrorResponse>, bookmark: MutableLiveData<Entertainment>
+        errorMesg: MutableLiveData<ErrorResponse>
     ) {
         retroServices().getEntSearchList(searchText, page, Constants.API_KEY)
             .enqueue(object : RetrofitCallback<EntertainmentRes>() {
@@ -46,6 +47,24 @@ class EntertainmentRepository {
                     errorMesg.value = response
                 }
             })
+    }
+
+    fun getEntDetail(
+        imdbId: String, entDetail: MutableLiveData<EntDetail>,
+        errorMesg: MutableLiveData<ErrorResponse>
+    ) {
+        retroServices().getEntDetail(imdbId, Constants.API_KEY)
+            .enqueue(object : RetrofitCallback<EntDetail>() {
+
+                override fun onSuccess(response: EntDetail?) {
+                    entDetail.value = response
+                }
+
+                override fun onFail(response: ErrorResponse?) {
+                    errorMesg.value = response
+                }
+            })
+
     }
 
     fun bookmarkEnt(ent: Entertainment) {

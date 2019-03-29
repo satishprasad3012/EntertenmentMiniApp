@@ -21,6 +21,7 @@
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="@{data.onItemClick()}"
                 android:clickable="true">
 
             <ImageView
@@ -39,7 +40,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-
                     android:layout_height="@dimen/d200"/>
             <TextView
                     android:id="@+id/heading_tv"

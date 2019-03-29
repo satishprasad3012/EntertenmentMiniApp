@@ -13,8 +13,6 @@ class EnListViewModel : ViewModel() {
     val errorMsg = MutableLiveData<ErrorResponse>()
     val entertainmentDetailMld = MutableLiveData<EntertainmentRes>()
     val bookmarkList = MutableLiveData<ArrayList<Entertainment>>()
-    val bookmark = MutableLiveData<Entertainment>()
-    var bookmarkedSet =  HashSet<String>()
 
     init {
         getBookmarksFromDb()
@@ -24,7 +22,7 @@ class EnListViewModel : ViewModel() {
         searchText: String, page: Int
     ) {
         EntertainmentRepository.instance.getEntertainList(
-            searchText, page, entertainmentDetailMld,errorMsg,bookmark)
+            searchText, page, entertainmentDetailMld,errorMsg)
     }
 
     fun bookmarkEnt(en:Entertainment){

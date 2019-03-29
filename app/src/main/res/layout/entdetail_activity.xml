@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="data"
+                  type="com.satish.android.entertainmentminiapp.model.EntDetail"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        <include layout="@layout/toolbar"
+                 android:id="@+id/toolbar"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:id="@+id/large_thumb_iv"
+                android:layout_width="match_parent"
+                android:background="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:imageUrl="@{data.Poster}"
+                android:layout_height="@dimen/d200"/>
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:background="@color/overlay"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                android:layout_height="@dimen/d200"/>
+
+        <TextView
+                android:id="@+id/heading_tv"
+                style="@style/DescTxtStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:ellipsize="end"
+                android:text="@{data.title}"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/date_tv"
+                android:layout_margin="@dimen/d8"
+                tools:text="kjdhjkfgjhfgfhjgfhjgvhjf dnvdnfngf vfgvfnfvnfv fhvfnvfhfvnhfvjhfgvj"/>
+        <TextView
+                android:id="@+id/date_tv"
+                style="@style/SmallDescTxtStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{data.year}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/large_thumb_iv"
+                android:layout_margin="@dimen/d8"
+                tools:text="5 days ago"/>
+
+        <TextView
+                android:id="@+id/director_tv"
+                style="@style/SmallDescTxtStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.director}"
+                android:textColor="@color/text_color_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/large_thumb_iv"
+                android:layout_margin="@dimen/d8"
+                tools:text="Satish Koishik"/>
+
+        <TextView
+                android:id="@+id/rating_tv"
+                style="@style/SmallDescTxtStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.imdbRating}"
+                android:textColor="@color/text_color_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/large_thumb_iv"
+                android:layout_margin="@dimen/d8"
+                tools:text="9.5 star"/>
+
+        <TextView
+                android:id="@+id/genre_tv"
+                style="@style/SmallDescTxtStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.genre}"
+                android:textColor="@color/text_color_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/director_tv"
+                android:layout_margin="@dimen/d8"
+                tools:text="action, adventure, jhdkhdk"/>
+
+        <TextView
+                android:id="@+id/actors_tv"
+                style="@style/SmallDescTxtStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.actors}"
+                android:textColor="@color/text_color_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/genre_tv"
+                android:layout_margin="@dimen/d8"
+                tools:text="shsghs shsh sks ssh kshss"/>
+
+        <include layout="@layout/error_lay"
+                 android:layout_width="0dp"
+                 android:layout_height="0dp"
+                 app:layout_constraintTop_toTopOf="parent"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 android:visibility="gone"
+                 android:id="@+id/error_lay"/>
+
+        <include layout="@layout/loader_lay"
+                 android:layout_width="0dp"
+                 android:layout_height="0dp"
+                 app:layout_constraintTop_toTopOf="parent"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 android:visibility="gone"
+                 android:id="@+id/loading_lay"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
