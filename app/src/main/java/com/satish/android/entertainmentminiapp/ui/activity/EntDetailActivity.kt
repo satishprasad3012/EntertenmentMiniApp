@@ -8,6 +8,7 @@ import android.os.Bundle
 import com.satish.android.entertainmentminiapp.R
 import com.satish.android.entertainmentminiapp.analytics.EntAnalytics
 import com.satish.android.entertainmentminiapp.databinding.EntdetailActivityBinding
+import com.satish.android.entertainmentminiapp.model.EntDetail
 import com.satish.android.entertainmentminiapp.ui.viewmodel.EntDetailViewModel
 import com.satish.android.entertainmentminiapp.utility.*
 
@@ -32,7 +33,6 @@ class EntDetailActivity : BaseActivity() {
             onBackPressed()
         }
         entDetailVM.enDetailAPI(imdbId)
-
     }
 
     private fun observeData() {
@@ -41,6 +41,8 @@ class EntDetailActivity : BaseActivity() {
             it?.let {
                 binding.data = it
                 binding.executePendingBindings()
+                if(bookmarkedSet.contains(it.imdbID)) // update complete data for bookmark item
+                     updateBookmarkEntIntDb(it)
             }
             fadeOut(binding.loadingLay.loadingTv)
         })
@@ -51,6 +53,10 @@ class EntDetailActivity : BaseActivity() {
             binding.errorLay.errorTv.text = entDetailVM.errorMsg.value?.message
             fadeOut(binding.loadingLay.loadingTv)
         })
+    }
+
+    private fun updateBookmarkEntIntDb(ent:EntDetail){
+        entDetailVM.updateBookmarkIntoDb(ent)
     }
 
     private fun setToolbar() {

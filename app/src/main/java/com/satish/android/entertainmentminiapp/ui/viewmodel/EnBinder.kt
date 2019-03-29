@@ -12,6 +12,7 @@ import com.satish.android.entertainmentminiapp.R
 import com.satish.android.entertainmentminiapp.model.Entertainment
 import com.satish.android.entertainmentminiapp.ui.activity.EntDetailActivity
 import com.satish.android.entertainmentminiapp.ui.listeners.EntActionListener
+import com.satish.android.entertainmentminiapp.utility.bookmarkedSet
 import com.satish.android.entertainmentminiapp.utility.isNetworkAvailable
 import com.satish.android.entertainmentminiapp.utility.toast
 
@@ -46,7 +47,7 @@ class EnBinder(val context: Context, val entertainment: Entertainment, val scree
 
     fun onItemClick() = View.OnClickListener {
         if (entertainment.imdbID.isNullOrBlank()) return@OnClickListener
-        if (isNetworkAvailable(context) || entertainment.bookmark) {
+        if (isNetworkAvailable(context) || bookmarkedSet.contains(entertainment.imdbID)) {
             EntDetailActivity.startActivity(
                 context, entertainment.imdbID,
                 entertainment.Title.orEmpty()

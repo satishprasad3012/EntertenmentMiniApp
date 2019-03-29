@@ -11,6 +11,7 @@ import com.satish.android.entertainmentminiapp.R
 import com.satish.android.entertainmentminiapp.databinding.SearchLayBinding
 import com.satish.android.entertainmentminiapp.ui.adapter.TextWatcherAdapter
 import com.satish.android.entertainmentminiapp.ui.listeners.EntActionListener
+import com.satish.android.entertainmentminiapp.utility.isNetworkAvailable
 import com.satish.android.entertainmentminiapp.utility.showKeyboard
 
 class SearchView : RelativeLayout, View.OnClickListener {
@@ -47,7 +48,7 @@ class SearchView : RelativeLayout, View.OnClickListener {
 
             override fun afterTextChanged(s: Editable?) {
                 super.afterTextChanged(s)
-                if(!s.isNullOrBlank())
+                if(!s.isNullOrBlank() && isNetworkAvailable)
                     entActionListener?.onSearch(s.toString())
             }
         })

@@ -18,6 +18,9 @@ interface EntItemDao : BaseDao<EntItemEntity> {
     @Query("SELECT * FROM " + EntItemEntity.TABLE_NAME)
     fun getAllBookmarkItems(): List<EntItemEntity>?
 
+    @Query("SELECT * FROM " + EntItemEntity.TABLE_NAME + " WHERE " + EntItemEntity.IMDB_ID + " = :imdbId")
+    fun getBookmarkItem(imdbId: String): EntItemEntity?
+
     @Query("DELETE FROM " + EntItemEntity.TABLE_NAME + " WHERE " + EntItemEntity.IMDB_ID + " = :imdbId")
     fun deleteBookmark(imdbId: String)
 

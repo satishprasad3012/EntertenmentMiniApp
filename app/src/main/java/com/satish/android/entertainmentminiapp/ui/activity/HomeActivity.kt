@@ -28,10 +28,7 @@ import com.satish.android.entertainmentminiapp.ui.viewmodel.EnListViewModel
 import com.satish.android.entertainmentminiapp.ui.views.BookmarkHView
 import com.satish.android.entertainmentminiapp.ui.views.EnItemLargeView
 import com.satish.android.entertainmentminiapp.ui.views.HomeEmptyView
-import com.satish.android.entertainmentminiapp.utility.Constants
-import com.satish.android.entertainmentminiapp.utility.bookmarkedSet
-import com.satish.android.entertainmentminiapp.utility.observeNullable
-import com.satish.android.entertainmentminiapp.utility.orZero
+import com.satish.android.entertainmentminiapp.utility.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -74,7 +71,11 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
         setAdapter()
         observeEnData()
         observeBookmarkData()
-        enListVM.enListCallAPI(searchText, 1)
+        observeError()
+        if (isNetworkAvailable) {
+            binding.progressBar.visibility = View.VISIBLE
+            enListVM.enListCallAPI(searchText, 1)
+        }
     }
 
     private fun addAdapters() {
@@ -169,6 +170,10 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
     }
 
     override fun onPulltoRefreshCalled() {
+        if (!isNetworkAvailable) {
+            recycleMultiItemView.pullToRefreshComplete()
+            return
+        }
         // enData.clear()
         isPullToRefresh = true
         enListVM.enListCallAPI(searchText, 1)
@@ -202,9 +207,17 @@ class HomeActivity : BaseActivity(), MultiListInterfaces.OnPullToRefreshListener
         }
     }
 
-    private fun setEmptyView() {
+    private fun observeError() {
+        enListVM.errorMsg.observeNonNull(this, {
+            if (enData.size <= 0)
+                setEmptyView(enListVM.errorMsg.value?.message.orEmpty())
+            recycleMultiItemView.pullToRefreshComplete()
+        })
+    }
+
+    private fun setEmptyView(title: String = "") {
         val adapterParams =
-            RecycleAdapterParams(null, HomeEmptyView(this))
+            RecycleAdapterParams(null, HomeEmptyView(this, title))
         mArrListAdapterParam[POS_SEARCHED_EN] = adapterParams
         mMultiItemRowAdapter.notifyDatahasChanged()
     }

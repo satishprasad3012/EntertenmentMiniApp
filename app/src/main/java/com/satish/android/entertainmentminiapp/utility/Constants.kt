@@ -11,7 +11,7 @@ object Constants {
 
      const val API_CONNECT_TIMEOUT_VALUE = 15L // in seconds
      const val API_READ_TIMEOUT_VALUE = 15L // in seconds
-     const val API_KEY="df357d0d"
+     const val API_KEY="df357d0d" // replace with your key
 
 
      // recycler ids

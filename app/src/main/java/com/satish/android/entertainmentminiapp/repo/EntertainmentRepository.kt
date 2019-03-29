@@ -83,8 +83,25 @@ class EntertainmentRepository {
         }
     }
 
-    fun updateBookmark(imdbId: String) {
+    fun updateBookmark(ent: EntDetail) {
+        if (ent.imdbID.isNullOrBlank()) return
+        bookmarkDao.update(
+            EntItemEntity(
+                ent.imdbID, ent.Title.orEmpty(), ent.Year.orEmpty(),
+                ent.Type.orEmpty(), ent.Poster.orEmpty(), ent.Genre.orEmpty(), ent.imdbRating.orEmpty(),
+                ent.Director.orEmpty(), ent.Actors.orEmpty()
+            )
+        )
+    }
 
+    fun getBookmarkedItemFromDb(imdbId: String): EntDetail? {
+        val ent = bookmarkDao.getBookmarkItem(imdbId)
+        if (ent != null) {
+            return EntDetail(
+                ent.imdbID, ent.title, ent.Year, ent.Type, ent.Poster,
+                ent.Genre, ent.imdbRating, ent.Director, ent.Actors)
+        }
+        return null
     }
 
     suspend fun getAllBookmark(): ArrayList<Entertainment>? {
